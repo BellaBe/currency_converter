@@ -10,7 +10,7 @@
 <body>
     <div class="ui container">
         <div class="ui four item inverted orange menu">
-            <div class="header item">
+            <div class="header item" style="cursor:pointer">
                 <i class="money bill alternate outline icon"></i>
                 Single page app
             </div>
@@ -35,20 +35,110 @@
         <script id="rates-template" type="text/x-handlebars-template">
             <h1 class="ui header">Currency rates</h1>
             <hr>
+            <div class="ui loading basic segment">
+                <div class="ui horizontal list">
+                    <div class="item">
+                        <i class="calendar alternate outline icon"></i>
+                        <div class="content">
+                            <div class="ui sub header">Date</div>
+                            <span>{{date}}</span>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <i class="money bill alternate outline icon"></i>
+                        <div class="content">
+                            <div class="ui sub header">Base</div>
+                            <span>{{base}}</span>
+                        </div>
+                    </div>
+                </div>
+                <table class="ui celled striped selectable inverted table">
+                    <thead>
+                        <tr>
+                            <th>Code</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {{#each rates}}
+                        <tr>
+                            <td>{{@key}}</td>
+                            <td>{{this}}</td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+            </div>
         </script>
         <!-- Exchange conversion template -->
         <script id="exchange-template" type="text/x-handlebars-template">
             <h1 class="ui header">Exchange conversions</h1>
+            <hr>
+            <div class="ui basic loading segment">
+                <from class="ui form">
+                    <div class="three fields">
+                        <div class="field">
+                            <label>From</label>
+                            <select class="ui dropdown" name="from" id="from">
+                                <option value="">Select currency</option>
+                                    {{#each symbols}}
+                                        <option value="{{@key}}">{{this}}</option>
+                                    {{/each}}
+                                
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>From</label>
+                            <select class="ui dropdown" name="to" id="to">
+                                <option value=""> Select currency</option>
+                                    {{#each symbols }}
+                                        <option value="{{@key}}">{{this}}</option>
+                                    {{/each}}
+                                
+                            </select>
+                        </div>
+                        <div class="field">
+                            <label>Amount</label>
+                            <input type="number" name="amount" id="amount" placeholder="Enter amount">
+                        </div>
+                    </div>
+                    <div class="ui primary submit button">Convert</div>
+                    <div class="ui error message"></div>
+                </from>
+                <br>
+                <div id="result-segment" class="ui center aligned segment">
+                    <h2 id="result" class="ui header">0.00</h2>
+                </div>
+            </div>
         </script>
         <!-- Historical rates template -->
         <script id="historical-template" type="text/x-handlebars-template">
             <h1 class="ui header">Historical rates</h1>
+            <hr>
+            <form class="ui form">
+                <div class="field">
+                    <label>Pick date</label>
+                    <div  class="ui calendar" id="calendar">
+                        <div class="ui input left icon">
+                            <i class="calendar icon"></i>
+                            <input type="text" placeholder="Date" id="date">
+
+                        </div>
+                    </div>
+                </div>
+                <div class="ui primary submit button">Fetch Rates</div>
+                <div class="ui error message"></div>
+            </form>
+            <div class="ui basic segment">
+                <div id = "historical-table"></div>
+            </div>
         </script>
         <div id="app"></div>
     </div>
 
     <script src="scripts/jquery/dist/jquery.min.js"></script>
     <script src="scripts/semantic-ui-css/semantic.min.js"></script>
+    <script src="scripts/semantic-ui-calendar/dist/calendar.min.js"></script>
     <script src="scripts/vanilla-router/dist/vanilla-router.min.js"></script>
     <script src="scripts/axios/dist/axios.min.js"></script>
     <script src="scripts/handlebars/dist/handlebars.min.js"></script>
