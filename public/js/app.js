@@ -119,7 +119,7 @@ const historicalRatesHandler = ()=>{
     router.add('/historical', () => {
         const html = historicalTemplate();
         el.html(html);
-        
+
         $('#calendar').calendar({
             type: 'date',
             formatter: {
